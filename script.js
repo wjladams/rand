@@ -272,31 +272,26 @@ function makeRandomSelection() {
     
     // Animate through choices for 10 seconds with variable speed
     const duration = 10000; // 10 seconds in milliseconds
-    const totalIterations = 100; // Total number of iterations
-    let counter = 0;
+    const startTime = Date.now();
+    let lastUpdateTime = startTime;
     
     // Function to calculate current interval (starts fast, gets slower)
-    function getCurrentInterval() {
+    function getCurrentInterval(elapsedTime) {
         // Start at 50ms, end at 500ms with exponential slowdown
         const startInterval = 50;
         const endInterval = 500;
-        const progress = counter / totalIterations;
+        const progress = elapsedTime / duration;
         
         // Exponential curve for smooth slowdown
         return startInterval + (endInterval - startInterval) * Math.pow(progress, 2);
     }
     
     function animateNext() {
-        const randomChoice = currentScenario.choices[Math.floor(Math.random() * currentScenario.choices.length)];
-        selectionResult.innerHTML = randomChoice;
-        selectionResult.className = 'selection-result';
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - startTime;
         
-        counter++;
-        
-        if (counter < totalIterations) {
-            // Schedule next iteration with current interval
-            setTimeout(animateNext, getCurrentInterval());
-        } else {
+        // Check if we've reached the total duration
+        if (elapsedTime >= duration) {
             // Final selection
             const finalChoice = currentScenario.choices[Math.floor(Math.random() * currentScenario.choices.length)];
             selectionResult.innerHTML = finalChoice;
@@ -308,7 +303,19 @@ function makeRandomSelection() {
             
             // Show success message
             showNotification(`Selected: ${finalChoice}`, 'success');
+            return;
         }
+        
+        // Show random choice
+        const randomChoice = currentScenario.choices[Math.floor(Math.random() * currentScenario.choices.length)];
+        selectionResult.innerHTML = randomChoice;
+        selectionResult.className = 'selection-result';
+        
+        // Calculate next interval based on elapsed time
+        const nextInterval = getCurrentInterval(elapsedTime);
+        
+        // Schedule next iteration
+        setTimeout(animateNext, nextInterval);
     }
     
     // Start the animation
