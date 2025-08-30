@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Random - Random Item Selector</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎲 Choose Random</h1>
+            <p>Create and manage your random selection scenarios</p>
+        </header>
+
+        <main>
+            <!-- Scenarios List Section -->
+            <section class="scenarios-section">
+                <div class="scenarios-header">
+                    <h2>Your Scenarios</h2>
+                    <button id="createScenarioBtn" class="btn btn-primary btn-icon">
+                        <span>+</span>
+                    </button>
+                </div>
+                <div id="scenariosList" class="scenarios-list">
+                    <!-- Scenarios will be populated here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal for Random Selection -->
+        <div id="selectionModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modalTitle">Random Selection</h2>
+                <div class="selection-area">
+                    <div id="selectionResult" class="selection-result">
+                        <span class="placeholder">Click the button to make a random choice!</span>
+                    </div>
+                    <button id="selectRandom" class="btn btn-large">🎲 Choose Random!</button>
+                </div>
+                <div class="modal-actions">
+                    <button id="deleteScenario" class="btn btn-danger">Delete Scenario</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Creating New Scenario -->
+        <div id="createModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Create New Scenario</h2>
+                <form id="createForm" class="create-form">
+                    <div class="form-group">
+                        <label for="scenarioTitle">Scenario Title:</label>
+                        <input type="text" id="scenarioTitle" required placeholder="e.g., What to eat for dinner">
+                    </div>
+                    <div class="form-group">
+                        <label for="choices">Choices (one per line):</label>
+                        <textarea id="choices" required placeholder="Pizza&#10;Burger&#10;Salad&#10;Sushi" rows="6"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancelCreate" class="btn btn-secondary">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Scenario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for Editing Scenario -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Edit Scenario</h2>
+                <form id="editForm" class="create-form">
+                    <div class="form-group">
+                        <label for="editScenarioTitle">Scenario Title:</label>
+                        <input type="text" id="editScenarioTitle" required placeholder="e.g., What to eat for dinner">
+                    </div>
+                    <div class="form-group">
+                        <label for="editChoices">Choices (one per line):</label>
+                        <textarea id="editChoices" required placeholder="Pizza&#10;Burger&#10;Salad&#10;Sushi" rows="6"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancelEdit" class="btn btn-secondary">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
