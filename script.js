@@ -270,18 +270,33 @@ function makeRandomSelection() {
     selectRandomBtn.disabled = true;
     selectRandomBtn.textContent = '🎲 Choosing...';
     
-    // Animate through choices
+    // Animate through choices for 10 seconds with variable speed
+    const duration = 10000; // 10 seconds in milliseconds
+    const totalIterations = 100; // Total number of iterations
     let counter = 0;
-    const maxIterations = 20;
-    const interval = setInterval(() => {
+    
+    // Function to calculate current interval (starts fast, gets slower)
+    function getCurrentInterval() {
+        // Start at 50ms, end at 500ms with exponential slowdown
+        const startInterval = 50;
+        const endInterval = 500;
+        const progress = counter / totalIterations;
+        
+        // Exponential curve for smooth slowdown
+        return startInterval + (endInterval - startInterval) * Math.pow(progress, 2);
+    }
+    
+    function animateNext() {
         const randomChoice = currentScenario.choices[Math.floor(Math.random() * currentScenario.choices.length)];
         selectionResult.innerHTML = randomChoice;
         selectionResult.className = 'selection-result';
         
         counter++;
-        if (counter >= maxIterations) {
-            clearInterval(interval);
-            
+        
+        if (counter < totalIterations) {
+            // Schedule next iteration with current interval
+            setTimeout(animateNext, getCurrentInterval());
+        } else {
             // Final selection
             const finalChoice = currentScenario.choices[Math.floor(Math.random() * currentScenario.choices.length)];
             selectionResult.innerHTML = finalChoice;
@@ -294,7 +309,10 @@ function makeRandomSelection() {
             // Show success message
             showNotification(`Selected: ${finalChoice}`, 'success');
         }
-    }, 100);
+    }
+    
+    // Start the animation
+    animateNext();
 }
 
 // Delete current scenario
